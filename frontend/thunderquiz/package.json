@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@linguala/eslint-config": "^0.3.0",
-    "husky": "^3.0.9"
+    "husky": "^3.0.9",
+    "pretty-quick": "^2.0.0"
   }
 }
