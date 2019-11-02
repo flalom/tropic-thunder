@@ -4,7 +4,7 @@ import {Radar} from 'react-chartjs-2';
 
 const Cybercity = styled.div`
   background-color: white;
-  color: green;
+  color: blue;
 `
 
 const data = {
@@ -37,7 +37,6 @@ const Lukasz = props =>
 <Cybercity>
   Hey my name is Lukasz
 
-  Welcome to my <blink style={{ color: 'blue', backgroundColor: 'red'}}>homepage</blink>
   <div>
     <h2>Here's you and mentor</h2>
     <Radar data={data} />
