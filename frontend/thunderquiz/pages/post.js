@@ -1,44 +1,40 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import fetch from 'isomorphic-fetch'
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import fetch from "isomorphic-fetch";
 
 const styles = theme => ({
   layout: {
-    width: 'auto',
+    width: "auto",
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
       width: 1100,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+      marginLeft: "auto",
+      marginRight: "auto"
+    }
   },
   toolbarMain: {
-    borderBottom: `1px solid ${theme.palette.grey[300]}`,
+    borderBottom: `1px solid ${theme.palette.grey[300]}`
   },
   toolbarTitle: {
-    flex: 1,
+    flex: 1
   },
-  card: {
-  },
-  cardDetails: {
-  },
+  card: {},
+  cardDetails: {},
   cardMedia: {
-    objectFit: 'cover',
+    objectFit: "cover",
     height: 140
   }
-})
-
-
+});
 
 function PostPage(props) {
-  const { classes, post } = props
+  const { classes, post } = props;
 
   return (
     <React.Fragment>
@@ -65,33 +61,31 @@ function PostPage(props) {
             />
             <div className={classes.cardDetails}>
               <CardContent>
-                <Typography component="h2">
-                  {post.title}
-                </Typography>
-                <Typography component="p">
-                  {post.body}
-                </Typography>
+                <Typography component="h2">{post.title}</Typography>
+                <Typography component="p">{post.body}</Typography>
               </CardContent>
             </div>
           </Card>
         </main>
       </div>
     </React.Fragment>
-  )
+  );
 }
 
-PostPage.getInitialProps = async (context) => {
-  const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${context.query.postId}`)
+PostPage.getInitialProps = async context => {
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${context.query.postId}`
+  );
   if (response.ok) {
-    const post = await response.json()
-    return { post }
+    const post = await response.json();
+    return { post };
   }
 
-  return []
-}
+  return [];
+};
 
 PostPage.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
+  classes: PropTypes.object.isRequired
+};
 
-export default withStyles(styles)(PostPage)
+export default withStyles(styles)(PostPage);

@@ -1,62 +1,60 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Hidden from '@material-ui/core/Hidden'
-import Link from "next/link"
-import fetch from 'isomorphic-fetch'
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Hidden from "@material-ui/core/Hidden";
+import Link from "next/link";
+import fetch from "isomorphic-fetch";
 
 const styles = theme => ({
   layout: {
-    width: 'auto',
+    width: "auto",
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
       width: 1100,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+      marginLeft: "auto",
+      marginRight: "auto"
+    }
   },
   toolbarMain: {
-    borderBottom: `1px solid ${theme.palette.grey[300]}`,
+    borderBottom: `1px solid ${theme.palette.grey[300]}`
   },
   toolbarTitle: {
-    flex: 1,
+    flex: 1
   },
   mainFeaturedPost: {
     backgroundColor: theme.palette.grey[800],
     color: theme.palette.common.white,
-    marginBottom: theme.spacing.unit * 4,
+    marginBottom: theme.spacing.unit * 4
   },
   mainFeaturedPostContent: {
     padding: `${theme.spacing.unit * 6}px`,
-    [theme.breakpoints.up('md')]: {
-      paddingRight: 0,
-    },
+    [theme.breakpoints.up("md")]: {
+      paddingRight: 0
+    }
   },
   mainGrid: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 3
   },
   card: {
-    display: 'flex',
+    display: "flex"
   },
   cardDetails: {
-    flex: 1,
+    flex: 1
   },
   cardMedia: {
-    width: 160,
+    width: 160
   }
-})
-
-
+});
 
 function IndexPage(props) {
-  const { classes, posts } = props
+  const { classes, posts } = props;
 
   return (
     <React.Fragment>
@@ -83,8 +81,12 @@ function IndexPage(props) {
                       <Typography component="h2" variant="h5">
                         {post.title}
                       </Typography>
-                      <Link href={{pathname: '/post', query: {postId: post.id}}}>
-                        <Typography variant="subtitle1" color="primary">Continue reading...</Typography>
+                      <Link
+                        href={{ pathname: "/post", query: { postId: post.id } }}
+                      >
+                        <Typography variant="subtitle1" color="primary">
+                          Continue reading...
+                        </Typography>
                       </Link>
                     </CardContent>
                   </div>
@@ -102,21 +104,21 @@ function IndexPage(props) {
         </main>
       </div>
     </React.Fragment>
-  )
+  );
 }
 
 IndexPage.getInitialProps = async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
   if (response.ok) {
-    const posts = await response.json()
-    return { posts }
+    const posts = await response.json();
+    return { posts };
   }
 
-  return []
-}
+  return [];
+};
 
 IndexPage.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
+  classes: PropTypes.object.isRequired
+};
 
-export default withStyles(styles)(IndexPage)
+export default withStyles(styles)(IndexPage);

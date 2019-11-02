@@ -18,6 +18,21 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "@linguala/eslint-config"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "devDependencies": {
+    "@linguala/eslint-config": "^0.3.0",
+    "husky": "^3.0.9"
   }
 }
