@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Radar} from 'react-chartjs-2'
+import { Radar } from 'react-chartjs-2'
 
 const MentorProfile = styled.div`
   background-color: white;
@@ -37,12 +37,33 @@ const data = {
   ]
 }
 
+const conversationStarters = {
+  alice: [
+    'Hey, my boss told me to contact you because my performance is bad',
+    'Hi, the winter is coming, and I need to learn {{ }} for my next project',
+    'Hi, I saw that you are a functional programming expert, could you help me with Scala?'
+  ],
+  bob: [],
+  felix: []
+}
+
+const ConversationStarters = props =>
+  <div>
+    {JSON.stringify(props.starters)}
+  </div>
+
+const people = Object.keys(conversationStarters)
+
 export default props =>
   <MentorProfile>
-    Hey my name is Lukasz
+    Hey my name is {props.name || people[0]}
 
     <div>
       <h2>Here's you and mentor</h2>
-      <Radar data={data} />
+      <Radar data={data}/>
+
+      <ConversationStarters starters={conversationStarters}/>
+
     </div>
+
   </MentorProfile>
