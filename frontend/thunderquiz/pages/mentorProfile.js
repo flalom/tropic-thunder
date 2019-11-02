@@ -7,11 +7,15 @@ const MentorProfile = styled.div`
   color: blue;
 `
 
+// Alice is first mentor
+// Bob is second mentor
+// Felix is treainie
+
 const data = {
-  labels: ['JSX', 'JS', 'Node.js', 'React', 'Angular', 'Cycling', 'Running'],
+  labels: ['JSX', 'JS', 'Node.js', 'React', 'Angular', 'HTML', 'Redux', 'ESLint', 'NPM'],
   datasets: [
     {
-      label: 'My First dataset',
+      label: 'Alice',
       backgroundColor: 'rgba(179,181,198,0.2)',
       borderColor: 'rgba(179,181,198,1)',
       pointBackgroundColor: 'rgba(179,181,198,1)',
@@ -21,7 +25,7 @@ const data = {
       data: [65, 59, 90, 81, 56, 55, 40]
     },
     {
-      label: 'My Second dataset',
+      label: 'Felix',
       backgroundColor: 'rgba(255,99,132,0.2)',
       borderColor: 'rgba(255,99,132,1)',
       pointBackgroundColor: 'rgba(255,99,132,1)',
