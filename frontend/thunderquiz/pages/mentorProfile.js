@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Radar} from 'react-chartjs-2';
+import {Radar} from 'react-chartjs-2'
 
-const Cybercity = styled.div`
+const MentorProfile = styled.div`
   background-color: white;
   color: blue;
 `
 
 const data = {
-  labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+  labels: ['JSX', 'JS', 'Node.js', 'React', 'Angular', 'Cycling', 'Running'],
   datasets: [
     {
       label: 'My First dataset',
@@ -33,14 +33,12 @@ const data = {
   ]
 }
 
-const Lukasz = props =>
-<Cybercity>
-  Hey my name is Lukasz
+export default props =>
+  <MentorProfile>
+    Hey my name is Lukasz
 
-  <div>
-    <h2>Here's you and mentor</h2>
-    <Radar data={data} />
-  </div>
-</Cybercity>
-
-export default Lukasz
+    <div>
+      <h2>Here's you and mentor</h2>
+      <Radar data={data} />
+    </div>
+  </MentorProfile>
