@@ -1,4 +1,6 @@
 import React from 'react';
+import Lukasz from './page/Lukasz.js'
+import Progressbar from './components/Progressbar.js'
 import logo from './logo.svg';
 import './App.css';
 
@@ -7,17 +9,16 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Lukasz></Lukasz>
         <a
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          I learn React
         </a>
+        <Progressbar steps={5} />
       </header>
     </div>
   );
