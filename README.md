@@ -1,5 +1,7 @@
 # 2019 hack'n'lead
 
+![demo](hackAndLead2019b.gif)
+
 ## Challenge
 - Accenture
 
