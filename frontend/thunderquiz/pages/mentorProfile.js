@@ -148,14 +148,23 @@ const ConversationStarters = props => {
 }
 
 const people = Object.keys(conversationStarters)
+const getCurrentPersonIndex = () => {
+  if (process.browser) {
+    return window.location.search.substr(1).split('=').pop() || 0
+  }
+  return 0
+}
+
+const navigateNextMentor = (index) => {
+  if (process.browser) {
+    // return window.location.href = ''
+  }
+  return
+}
 
 export default props => {
   const classes = useStyles()
-  let currentPerson = props.personId || 0 // TODO from page query
-
-  if (process.browser) {
-    currentPerson = window.location.search.substr(1).split('=').pop() || 0
-  }
+  let currentPerson = getCurrentPersonIndex()
 
   return (
     <Container>
@@ -200,7 +209,9 @@ export default props => {
             </CardActionArea>
           </Card>
 
-          <Fab color="primary" aria-label="add" className={classes.fab}>
+          <Fab color="primary" aria-label="add"
+               className={classes.fab}
+              onClick={() => navigateNextMentor(getCurrentPersonIndex())}>
             <NavigateNextIcon />
           </Fab>
         </div>
