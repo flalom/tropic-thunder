@@ -8,15 +8,19 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Typography from '@material-ui/core/Typography'
-import { comparator, lt, pipe as _, sort, uniq } from 'ramda'
+import { pipe as _, comparator, lt, sort, uniq } from 'ramda'
 
+import ProfilePicture from '../components/ProfilePicture.js'
 import { peopleSkills } from '../../../backend/peopleSkills'
 
-const MentorProfile = styled.div`
+const Container = styled.div`
   background-color: white;
   color: blue;
 `
 
+const PageContainer = styled.main`
+  margin-top: 5em;
+`
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -30,10 +34,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const comparePeople = (person1, person2, projectRequirement) => ({
-  labels: _(uniq, sort(comparator(lt)))(Object.keys(peopleSkills[person1])
-      .concat(
-        Object.keys(peopleSkills[person2])),
+  labels: _(uniq, sort(comparator(lt)))(
+    Object.keys(peopleSkills[person1]).concat(
+      Object.keys(peopleSkills[person2]),
     ),
+  ),
   values: [
     Object.values(peopleSkills[person1]),
     Object.values(peopleSkills[person2]),
@@ -66,6 +71,7 @@ const makeRadarData = ({ labels, values }) => ({
   ],
 })
 
+const peopleNames = ['alice', 'bob', 'felix']
 const conversationStarters = {
   alice: [
     'Hey, my boss told me to contact you because my performance is bad',
@@ -103,7 +109,7 @@ export default props => {
   const classes = useStyles()
   const currentPerson = props.personId || 0 // TODO from page query
   return (
-    <MentorProfile>
+    <Container>
       <AppBar>
         <Toolbar>
           <IconButton
@@ -112,7 +118,7 @@ export default props => {
             color="inherit"
             aria-label="menu"
           >
-            <MenuIcon/>
+            <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             Mentors
@@ -120,23 +126,26 @@ export default props => {
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
-      {/* TODO spacing here and card */}
-      <div>
-        <h2>Here&apos;s you and mentor {people[currentPerson]}</h2>
+      <PageContainer>
+        <ProfilePicture mentorUrl={`${peopleNames[currentPerson]}.jpg`} />
+        {/* TODO spacing here and card */}
+        <div>
+          <h2>Here&apos;s you and mentor {people[currentPerson]}</h2>
 
-        <div className="card">
-          <Radar data={makeRadarData(comparePeople('alice', 'felix'))}/>
-        </div>
+          <div className="card">
+            <Radar data={makeRadarData(comparePeople('alice', 'felix'))} />
+          </div>
 
-        <div className="card">
-          <ConversationStarters
-            starters={conversationStarters}
-            currentPerson={currentPerson}
-            people={people}
-          />
+          <div className="card">
+            <ConversationStarters
+              starters={conversationStarters}
+              currentPerson={currentPerson}
+              people={people}
+            />
+          </div>
+          {JSON.stringify(comparePeople('alice', 'felix'))}
         </div>
-        {JSON.stringify(comparePeople('alice', 'felix'))}
-      </div>
-    </MentorProfile>
+      </PageContainer>
+    </Container>
   )
 }
