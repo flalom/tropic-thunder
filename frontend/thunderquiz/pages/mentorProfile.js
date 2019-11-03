@@ -152,12 +152,12 @@ export default ({ classes }) => {
       <Card className={classes.card}>
         <CardActionArea>
           <CardContent>
-            <Typography gutterBottom variant="h2" component="h2">
+            <Typography gutterBottom variant="h3" component="h2">
               Here&apos;s you and mentor {upperCase(people[currentPersonId])}
             </Typography>
 
             <Radar
-              style={{height: '500px'}}
+              height={500}
               data={makeRadarData(comparePeople('alice', 'felix'))}/>
 
           </CardContent>
@@ -167,7 +167,7 @@ export default ({ classes }) => {
       <Card className={classes.card}>
         <CardActionArea>
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h3" component="h2">
               Here are great conversation starters
             </Typography>
             <ConversationStarters
