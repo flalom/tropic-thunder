@@ -8,7 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Typography from '@material-ui/core/Typography'
-import { uniq } from 'ramda'
+import { comparator, lt, pipe as _, sort, uniq } from 'ramda'
 
 import { peopleSkills } from '../../../backend/peopleSkills'
 
@@ -29,17 +29,16 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const comparePeople = (person1, person2, projectRequirement) => {
-  return {
-    labels: Object.keys(peopleSkills[person1]).concat(
-      Object.keys(peopleSkills[person2]),
+const comparePeople = (person1, person2, projectRequirement) => ({
+  labels: _(uniq, sort(comparator(lt)))(Object.keys(peopleSkills[person1])
+      .concat(
+        Object.keys(peopleSkills[person2])),
     ),
-    values: [
-      Object.values(peopleSkills[person1]),
-      Object.values(peopleSkills[person2]),
-    ],
-  }
-}
+  values: [
+    Object.values(peopleSkills[person1]),
+    Object.values(peopleSkills[person2]),
+  ],
+})
 
 const makeRadarData = ({ labels, values }) => ({
   labels,
@@ -113,7 +112,7 @@ export default props => {
             color="inherit"
             aria-label="menu"
           >
-            <MenuIcon />
+            <MenuIcon/>
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             Mentors
@@ -126,7 +125,7 @@ export default props => {
         <h2>Here&apos;s you and mentor {people[currentPerson]}</h2>
 
         <div className="card">
-          <Radar data={makeRadarData(comparePeople('alice', 'felix'))} />
+          <Radar data={makeRadarData(comparePeople('alice', 'felix'))}/>
         </div>
 
         <div className="card">
