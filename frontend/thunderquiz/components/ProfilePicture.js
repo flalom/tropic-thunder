@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const ProfilePicWrapper = styled.img`
   max-height: 350px;
   min-height: 350px;
-  height: 
+  height: 350px;
 `
 
 const ProfilePicture = ({ mentorUrl }) => (

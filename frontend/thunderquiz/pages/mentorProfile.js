@@ -37,31 +37,32 @@ const comparePeople = (person1, person2, projectRequirement) => ({
   ],
 })
 
-const makeRadarData = ({ labels, values }) => ({
-  labels,
-  datasets: [
-    {
-      label: 'Alice',
-      backgroundColor: 'rgba(179,181,198,0.2)',
-      borderColor: 'rgba(179,181,198,1)',
-      pointBackgroundColor: 'rgba(179,181,198,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(179,181,198,1)',
-      data: values[0],
-    },
-    {
-      label: 'Felix',
-      backgroundColor: 'rgba(255,99,132,0.2)',
-      borderColor: 'rgba(255,99,132,1)',
-      pointBackgroundColor: 'rgba(255,99,132,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(255,99,132,1)',
-      data: values[1],
-    },
-  ],
-})
+const makeRadarData =
+  ({ labels, values}, legendNames = ['Alice', 'Felix']) => ({
+    labels,
+    datasets: [
+      {
+        label: legendNames[0],
+        backgroundColor: 'rgba(179,181,198,0.2)',
+        borderColor: 'rgba(179,181,198,1)',
+        pointBackgroundColor: 'rgba(179,181,198,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(179,181,198,1)',
+        data: values[0],
+      },
+      {
+        label: legendNames[1],
+        backgroundColor: 'rgba(255,99,132,0.2)',
+        borderColor: 'rgba(255,99,132,1)',
+        pointBackgroundColor: 'rgba(255,99,132,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(255,99,132,1)',
+        data: values[1],
+      },
+    ],
+  })
 
 const upperCase = str =>
   str.charAt(0).toLocaleUpperCase() + str.substring(1)
@@ -74,18 +75,13 @@ const conversationStarters = {
     'Hi, I saw that you are a functional programming expert, could you help me with Scala?',
   ],
   bob: [
-    'Hey, my boss told me to contact you because my performance is bad',
-    'Hi, the winter is coming, and I need to learn {{ }} for my next project',
-    'Hi, I saw that you are a functional programming expert, could you help me with Scala?',
+    'Hey, I hear you like Pandas',
+    'Hi, the winter is coming, and we should do some PHP, to keep CPU warm',
+    'Hi, I saw that you are a object oriented expert, could you help me with Angular?',
   ],
   felix: [
-    'Hey, my boss told me to contact you because my performance is bad\n',
-    'Hi, the winter is coming, and I need to learn {{ }} for my next project\n',
-    'Hi, I saw that you are a functional programming expert, could you help me with Scala?',
   ],
 }
-
-const onConversationStarterClick = () => always(null)
 
 const ConversationStarters = ({ classes, starters, currentPersonName }) => {
   return (
@@ -118,11 +114,18 @@ const people = Object.keys(conversationStarters)
 
 export default ({ classes }) => {
   const [currentPersonId, setCurrentPerson] = useState(0)
-  const nextPerson = () => setCurrentPerson((currentPersonId + 1) % 3)
+  const nextPerson = () => {
+    if (process.browser) {
+      window.scrollTo(0, 0)
+    }
+    setCurrentPerson((currentPersonId + 1) % 3)
+  }
 
   return (
     <Container>
-      <Card className={classes.card}>
+      <Card
+        className={classes.card}
+      >
         <CardActionArea>
           <CardContent>
           </CardContent>
@@ -140,8 +143,17 @@ export default ({ classes }) => {
               gutterBottom variant="h2" component="h2">
               {upperCase(peopleNames[currentPersonId])}
             </Typography>
+
+            <Radar
+              height={500}
+              data={makeRadarData(
+                comparePeople(peopleNames[currentPersonId], 'alice'),
+                [
+                  peopleNames[currentPersonId], peopleNames[currentPersonId]
+                ])}/>
           </CardContent>
         </CardActionArea>
+
         <CardActions>
           <Button size="small" color="primary">
             Pick
@@ -158,7 +170,8 @@ export default ({ classes }) => {
 
             <Radar
               height={500}
-              data={makeRadarData(comparePeople('alice', 'felix'))}/>
+              data={makeRadarData(
+                comparePeople(peopleNames[currentPersonId], 'felix'))}/>
 
           </CardContent>
         </CardActionArea>
