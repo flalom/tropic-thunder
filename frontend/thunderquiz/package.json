@@ -31,6 +31,11 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
   "devDependencies": {
     "@linguala/eslint-config": "^0.3.0",
     "husky": "^3.0.9",

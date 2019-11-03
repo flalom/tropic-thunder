@@ -1,17 +1,17 @@
-import React from "react";
-import App, { Container } from "next/app";
-import Head from "next/head";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import React from 'react'
+import App, { Container } from 'next/app'
+import Head from 'next/head'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 export default class BlogApp extends App {
   static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
+    let pageProps = {}
 
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
+      pageProps = await Component.getInitialProps(ctx)
     }
 
-    return { pageProps };
+    return { pageProps }
   }
 
   renderHead() {
@@ -23,17 +23,17 @@ export default class BlogApp extends App {
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
         />
       </Head>
-    );
+    )
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps } = this.props
     return (
       <Container>
         {this.renderHead()}
         <CssBaseline />
         <Component {...pageProps} />
       </Container>
-    );
+    )
   }
 }
