@@ -136,6 +136,7 @@ const onPickMentor = mentor => {
 
 export default ({ classes }) => {
   const [currentPersonId, setCurrentPerson] = useState(0)
+  const mentor = people[currentPersonId]
   const length = 3
   const nextPerson = () => {
     if (process.browser) {
@@ -157,26 +158,22 @@ export default ({ classes }) => {
       <Card className={classes.card}>
         <CardActionArea>
           <div style={{ display:'flex', justifyContent:'center' }}>
-            <ProfilePicture mentorUrl={`${peopleNames[currentPersonId]}.jpg`} />
+            <ProfilePicture mentorUrl={`${mentor}.jpg`} />
           </div>
 
           <CardContent>
             <Typography gutterBottom variant="h2" component="h2">
-              {upperCase(peopleNames[currentPersonId])}
+              {upperCase(mentor)}
             </Typography>
 
             <Radar
               height={500}
               data={makeSinglePersonRadar(
                 {
-                  labels: Object.keys(
-                    peopleSkills[peopleNames[currentPersonId]],
-                  ),
-                  values: [
-                    Object.values(peopleSkills[peopleNames[currentPersonId]]),
-                  ],
+                  labels: Object.keys(peopleSkills[mentor]),
+                  values: [Object.values(peopleSkills[mentor])],
                 },
-                [peopleNames[currentPersonId]],
+                [mentor],
               )}
             />
           </CardContent>
@@ -184,11 +181,12 @@ export default ({ classes }) => {
 
         <CardActions>
           <Button
-            size="small"
+            size="large"
+            variant="outlined"
             color="primary"
-            onClick={() =>
-              onPickMentor(people[currentPersonId])}>
-            Pick
+            onClick={() => onPickMentor(people[currentPersonId])}
+          >
+            Pick {mentor}
           </Button>
         </CardActions>
       </Card>
@@ -202,9 +200,7 @@ export default ({ classes }) => {
 
             <Radar
               height={500}
-              data={makeTwoPeopleRadar(
-                comparePeople(peopleNames[currentPersonId], 'felix'),
-              )}
+              data={makeTwoPeopleRadar(comparePeople(mentor, 'felix'))}
             />
           </CardContent>
         </CardActionArea>
@@ -215,7 +211,7 @@ export default ({ classes }) => {
           <CardContent>
             <Typography gutterBottom variant="h4" component="h2">
               Here are great conversation starters for you and
-              { ' ' + upperCase(people[currentPersonId])}
+              {' ' + upperCase(people[currentPersonId])}
             </Typography>
             <ConversationStarters
               classes={classes}
