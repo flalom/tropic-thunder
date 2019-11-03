@@ -42,7 +42,7 @@ const makeRadarData =
     labels,
     datasets: [
       {
-        label: legendNames[0],
+        label: upperCase(legendNames[0]),
         backgroundColor: 'rgba(179,181,198,0.2)',
         borderColor: 'rgba(179,181,198,1)',
         pointBackgroundColor: 'rgba(179,181,198,1)',
@@ -52,7 +52,7 @@ const makeRadarData =
         data: values[0],
       },
       {
-        label: legendNames[1],
+        label: upperCase(legendNames[1]),
         backgroundColor: 'rgba(255,99,132,0.2)',
         borderColor: 'rgba(255,99,132,1)',
         pointBackgroundColor: 'rgba(255,99,132,1)',
@@ -67,7 +67,6 @@ const makeRadarData =
 const upperCase = str =>
   str.charAt(0).toLocaleUpperCase() + str.substring(1)
 
-const peopleNames = ['alice', 'bob', 'felix']
 const conversationStarters = {
   alice: [
     'Hey, my boss told me to contact you because my performance is bad',
@@ -80,8 +79,12 @@ const conversationStarters = {
     'Hi, I saw that you are a object oriented expert, could you help me with Angular?',
   ],
   felix: [
+    'Maiu!',
+    'Woof! Woof!',
+    'Pssst.. Psssst'
   ],
 }
+const peopleNames = Object.keys(conversationStarters)
 
 const ConversationStarters = ({ classes, starters, currentPersonName }) => {
   return (
