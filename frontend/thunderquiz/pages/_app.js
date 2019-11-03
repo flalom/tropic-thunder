@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import App from 'next/app'
 import Head from 'next/head'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -40,10 +39,6 @@ const Theme = props => {
   return <div>{props.children(classes)}</div>
 }
 
-const PageContainer = styled.main`
-  margin-top: 5em;
-`
-
 export default class BlogApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
@@ -76,9 +71,9 @@ export default class BlogApp extends App {
             <Nav classes={classes}></Nav>
             {this.renderHead()}
             <CssBaseline />
-            <PageContainer>
+            <div style={{ marginTop: '3em' }}>
               <Component {...pageProps} classes={classes} />
-            </PageContainer>
+            </div>
           </React.Fragment>
         )}
       </Theme>

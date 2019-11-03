@@ -1,29 +1,25 @@
-import Button from '@material-ui/core/Button'
-import CardActions from '@material-ui/core/CardActions'
-import Fab from '@material-ui/core/Fab'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListSubheader from '@material-ui/core/ListSubheader'
-import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import React, { useState } from 'react'
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  Fab,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from '@material-ui/core'
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import SendIcon from '@material-ui/icons/Send'
-import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 import { pipe as _, comparator, lt, sort, uniq } from 'ramda'
 import { Radar } from 'react-chartjs-2'
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardContent from '@material-ui/core/CardContent'
 
 import ProfilePicture from '../components/ProfilePicture'
 import { peopleSkills } from '../../../backend/peopleSkills'
-
-const Container = styled.div`
-  background-color: white;
-  color: blue;
-`
 
 const comparePeople = (person1, person2, projectRequirement) => ({
   labels: _(uniq, sort(comparator(lt)))(
@@ -37,52 +33,55 @@ const comparePeople = (person1, person2, projectRequirement) => ({
   ],
 })
 
-const makeTwoPeopleRadar =
-  ({ labels, values }, legendNames = ['alice', 'felix']) => ({
-    labels,
-    datasets: [
-      {
-        label: upperCase(legendNames[0]),
-        backgroundColor: 'rgba(179,181,198,0.2)',
-        borderColor: 'rgba(179,181,198,1)',
-        pointBackgroundColor: 'rgba(179,181,198,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(179,181,198,1)',
-        data: values[0],
-      },
-      {
-        label: upperCase(legendNames[1]),
-        backgroundColor: 'rgba(255,99,132,0.2)',
-        borderColor: 'rgba(255,99,132,1)',
-        pointBackgroundColor: 'rgba(255,99,132,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(255,99,132,1)',
-        data: values[1],
-      },
-    ],
-  })
+const makeTwoPeopleRadar = (
+  { labels, values },
+  legendNames = ['alice', 'felix'],
+) => ({
+  labels,
+  datasets: [
+    {
+      label: upperCase(legendNames[0]),
+      backgroundColor: 'rgba(179,181,198,0.2)',
+      borderColor: 'rgba(179,181,198,1)',
+      pointBackgroundColor: 'rgba(179,181,198,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(179,181,198,1)',
+      data: values[0],
+    },
+    {
+      label: upperCase(legendNames[1]),
+      backgroundColor: 'rgba(255,99,132,0.2)',
+      borderColor: 'rgba(255,99,132,1)',
+      pointBackgroundColor: 'rgba(255,99,132,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(255,99,132,1)',
+      data: values[1],
+    },
+  ],
+})
 
-const makeSinglePersonRadar =
-  ({ labels, values }, legendNames = ['alice']) => ({
-    labels,
-    datasets: [
-      {
-        label: upperCase(legendNames[0]),
-        backgroundColor: 'rgba(179,181,198,0.2)',
-        borderColor: 'rgba(179,181,198,1)',
-        pointBackgroundColor: 'rgba(179,181,198,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(179,181,198,1)',
-        data: values[0],
-      },
-    ],
-  })
+const makeSinglePersonRadar = (
+  { labels, values },
+  legendNames = ['alice'],
+) => ({
+  labels,
+  datasets: [
+    {
+      label: upperCase(legendNames[0]),
+      backgroundColor: 'rgba(179,181,198,0.2)',
+      borderColor: 'rgba(179,181,198,1)',
+      pointBackgroundColor: 'rgba(179,181,198,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(179,181,198,1)',
+      data: values[0],
+    },
+  ],
+})
 
-const upperCase = str =>
-  str.charAt(0).toLocaleUpperCase() + str.substring(1)
+const upperCase = str => str.charAt(0).toLocaleUpperCase() + str.substring(1)
 
 const conversationStarters = {
   alice: [
@@ -95,11 +94,7 @@ const conversationStarters = {
     'Hi, the winter is coming, and we should do some PHP, to keep CPU warm',
     'Hi, I saw that you are a object oriented expert, could you help me with Angular?',
   ],
-  felix: [
-    'Maiu!',
-    'Woof! Woof!',
-    'Pssst.. Psssst'
-  ],
+  felix: ['Maiu!', 'Woof! Woof!', 'Pssst.. Psssst'],
 }
 const peopleNames = Object.keys(conversationStarters)
 
@@ -117,15 +112,15 @@ const ConversationStarters = ({ classes, starters, currentPersonName }) => {
       className={classes.root}
     >
       {starters &&
-      starters[currentPersonName] &&
-      starters[currentPersonName].map((e, i) => (
-        <ListItem key={i} button>
-          <ListItemIcon>
-            <SendIcon/>
-          </ListItemIcon>
-          <ListItemText primary={e}/>
-        </ListItem>
-      ))}
+        starters[currentPersonName] &&
+        starters[currentPersonName].map((e, i) => (
+          <ListItem key={i} button>
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText primary={e} />
+          </ListItem>
+        ))}
     </List>
   )
 }
@@ -142,37 +137,36 @@ export default ({ classes }) => {
   }
 
   return (
-    <Container>
-      <Card
-        className={classes.card}
-      >
+    <div style={{ backgroundColor: 'white', color: 'blue' }}>
+      <Card className={classes.card}>
         <CardActionArea>
-          <CardContent>
-          </CardContent>
+          <CardContent></CardContent>
         </CardActionArea>
       </Card>
 
       <Card className={classes.card}>
         <CardActionArea>
-
-          <ProfilePicture
-            mentorUrl={`${peopleNames[currentPersonId]}.jpg`}/>
+          <ProfilePicture mentorUrl={`${peopleNames[currentPersonId]}.jpg`} />
 
           <CardContent>
-            <Typography
-              gutterBottom variant="h2" component="h2">
+            <Typography gutterBottom variant="h2" component="h2">
               {upperCase(peopleNames[currentPersonId])}
             </Typography>
 
             <Radar
               height={500}
-              data={
-                makeSinglePersonRadar({
-                    labels: Object.keys(peopleSkills[peopleNames[currentPersonId]]),
-                    values: [Object.values(peopleSkills[peopleNames[currentPersonId]])]
-                  },
-                  [peopleNames[currentPersonId]]
-                )}/>
+              data={makeSinglePersonRadar(
+                {
+                  labels: Object.keys(
+                    peopleSkills[peopleNames[currentPersonId]],
+                  ),
+                  values: [
+                    Object.values(peopleSkills[peopleNames[currentPersonId]]),
+                  ],
+                },
+                [peopleNames[currentPersonId]],
+              )}
+            />
           </CardContent>
         </CardActionArea>
 
@@ -193,9 +187,9 @@ export default ({ classes }) => {
             <Radar
               height={500}
               data={makeTwoPeopleRadar(
-                comparePeople(peopleNames[currentPersonId], 'felix'))}
+                comparePeople(peopleNames[currentPersonId], 'felix'),
+              )}
             />
-
           </CardContent>
         </CardActionArea>
       </Card>
@@ -220,16 +214,15 @@ export default ({ classes }) => {
         style={{
           position: 'fixed',
           top: 300,
-          left: '80%'
+          left: '80%',
         }}
         color="primary"
         aria-label="add"
         className={classes.fab}
         onClick={nextPerson}
       >
-        <NavigateNextIcon/>
+        <NavigateNextIcon />
       </Fab>
-
-    </Container>
+    </div>
   )
 }
