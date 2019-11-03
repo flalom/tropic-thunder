@@ -11,7 +11,7 @@ import React, { useState } from 'react'
 import SendIcon from '@material-ui/icons/Send'
 import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
-import { pipe as _, always, comparator, lt, sort, uniq } from 'ramda'
+import { pipe as _, comparator, lt, sort, uniq } from 'ramda'
 import { Radar } from 'react-chartjs-2'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -37,8 +37,8 @@ const comparePeople = (person1, person2, projectRequirement) => ({
   ],
 })
 
-const makeRadarData =
-  ({ labels, values }, legendNames = ['Alice', 'Felix']) => ({
+const makeTwoPeopleRadar =
+  ({ labels, values }, legendNames = ['alice', 'felix']) => ({
     labels,
     datasets: [
       {
@@ -60,6 +60,23 @@ const makeRadarData =
         pointHoverBackgroundColor: '#fff',
         pointHoverBorderColor: 'rgba(255,99,132,1)',
         data: values[1],
+      },
+    ],
+  })
+
+const makeSinglePersonRadar =
+  ({ labels, values }, legendNames = ['alice']) => ({
+    labels,
+    datasets: [
+      {
+        label: upperCase(legendNames[0]),
+        backgroundColor: 'rgba(179,181,198,0.2)',
+        borderColor: 'rgba(179,181,198,1)',
+        pointBackgroundColor: 'rgba(179,181,198,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(179,181,198,1)',
+        data: values[0],
       },
     ],
   })
@@ -149,11 +166,13 @@ export default ({ classes }) => {
 
             <Radar
               height={500}
-              data={makeRadarData(
-                comparePeople(peopleNames[currentPersonId], 'alice'),
-                [
-                  peopleNames[currentPersonId], peopleNames[currentPersonId]
-                ])}/>
+              data={
+                makeSinglePersonRadar({
+                    labels: Object.keys(peopleSkills[peopleNames[currentPersonId]]),
+                    values: [Object.values(peopleSkills[peopleNames[currentPersonId]])]
+                  },
+                  [peopleNames[currentPersonId]]
+                )}/>
           </CardContent>
         </CardActionArea>
 
@@ -173,8 +192,9 @@ export default ({ classes }) => {
 
             <Radar
               height={500}
-              data={makeRadarData(
-                comparePeople(peopleNames[currentPersonId], 'felix'))}/>
+              data={makeTwoPeopleRadar(
+                comparePeople(peopleNames[currentPersonId], 'felix'))}
+            />
 
           </CardContent>
         </CardActionArea>
