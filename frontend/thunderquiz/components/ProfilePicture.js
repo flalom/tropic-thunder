@@ -3,7 +3,8 @@ import styled from 'styled-components'
 
 const ProfilePicWrapper = styled.img`
   border-radius: 50%;
-  width: 100%;
+  width: 80%;
+  max-height: 350px;
 `
 
 const ProfilePicture = ({ mentorUrl }) => (
