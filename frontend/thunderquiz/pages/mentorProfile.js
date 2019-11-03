@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Radar} from 'react-chartjs-2'
+import { Radar } from 'react-chartjs-2'
 
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -25,10 +25,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
-}));
-// Alice is first mentor
-// Bob is second mentor
-// Felix is treainie
+}))
 
 const data = {
   labels: ['JSX', 'JS', 'Node.js', 'React', 'Angular', 'HTML', 'Redux', 'ESLint', 'NPM'],
@@ -62,35 +59,62 @@ const conversationStarters = {
     'Hi, the winter is coming, and I need to learn {{ }} for my next project',
     'Hi, I saw that you are a functional programming expert, could you help me with Scala?'
   ],
-  bob: [],
-  felix: []
+  bob: [
+    'Hey, my boss told me to contact you because my performance is bad',
+    'Hi, the winter is coming, and I need to learn {{ }} for my next project',
+    'Hi, I saw that you are a functional programming expert, could you help me with Scala?'
+  ],
+  felix: [
+    'Hey, my boss told me to contact you because my performance is bad\n',
+    'Hi, the winter is coming, and I need to learn {{ }} for my next project\n',
+    'Hi, I saw that you are a functional programming expert, could you help me with Scala?'
+  ]
 }
 
-const ConversationStarters = props =>
-  <div>
-    {JSON.stringify(props.starters)}
+const ConversationStarters = props => {
+  const currentPerson = props.people[props.currentPerson]
+  return <div>
+    <ul>
+      {props.starters[currentPerson].map(e =>
+        <li>{e}</li>)}
+    </ul>
   </div>
+}
 
 const people = Object.keys(conversationStarters)
 
-export default props =>{
-  const classes = useStyles();
- return   <MentorProfile>
-  <AppBar>
-    <Toolbar>
-    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-      <MenuIcon />
-    </IconButton>
-    <Typography variant="h6" className={classes.title}>
-      News
-    </Typography>
-    <Button color="inherit">Login</Button>
-  </Toolbar>
-  </AppBar>
-      Hey my name is {props.name || people[0]}
-
+export default props => {
+  const classes = useStyles()
+  const currentPerson = props.personId || 0 // TODO from page query
+  return <MentorProfile>
+    <AppBar>
+      <Toolbar>
+        <IconButton
+          edge="start"
+          className={classes.menuButton} color="inherit" aria-label="menu">
+          <MenuIcon/>
+        </IconButton>
+        <Typography variant="h6" className={classes.title}>
+          News
+        </Typography>
+        <Button color="inherit">Login</Button>
+      </Toolbar>
+    </AppBar>
+    {/*TODO spacing here and card*/}
     <div>
-      <h2>Here's you and mentor</h2>
-      <Radar data={data} />
-<ConversationStarters starters={conversationStarters}/>    </div>
-  </MentorProfile>}
+      <h2>Here's you and mentor {people[currentPerson]}</h2>
+
+      <div className="card">
+        <Radar data={data}/>
+      </div>
+
+      <div className="card">
+        <ConversationStarters
+          starters={conversationStarters}
+          currentPerson={currentPerson}
+          people={people}/>
+      </div>
+
+    </div>
+  </MentorProfile>
+}
