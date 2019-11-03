@@ -1,25 +1,42 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Radar } from 'react-chartjs-2'
-import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
-import Toolbar from '@material-ui/core/Toolbar'
+import Collapse from '@material-ui/core/Collapse'
+import DraftsIcon from '@material-ui/icons/Drafts'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import Fab from '@material-ui/core/Fab'
 import IconButton from '@material-ui/core/IconButton'
+import InboxIcon from '@material-ui/icons/MoveToInbox'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListSubheader from '@material-ui/core/ListSubheader'
 import MenuIcon from '@material-ui/icons/Menu'
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import React from 'react'
+import SendIcon from '@material-ui/icons/Send'
+import StarBorder from '@material-ui/icons/StarBorder'
+import styled from 'styled-components'
+import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
+import { Radar } from 'react-chartjs-2'
+
+
 import { comparator, lt, pipe as _, sort, uniq } from 'ramda'
 
 import { peopleSkills } from '../../../backend/peopleSkills'
 
 const MentorProfile = styled.div`
-  background-color: white;
-  color: blue;
+  background-color: white
+  color: blue
 `
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -27,13 +44,22 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  fab: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
 }))
 
 const comparePeople = (person1, person2, projectRequirement) => ({
   labels: _(uniq, sort(comparator(lt)))(Object.keys(peopleSkills[person1])
-      .concat(
-        Object.keys(peopleSkills[person2])),
-    ),
+    .concat(
+      Object.keys(peopleSkills[person2])),
+  ),
   values: [
     Object.values(peopleSkills[person1]),
     Object.values(peopleSkills[person2]),
@@ -84,17 +110,44 @@ const conversationStarters = {
   ],
 }
 
+// const ConversationStarters = props => {
+//   return (
+//     <div>
+//       <ul>
+//         {props.starters[currentPerson].map((e, i) => (
+//           <li key={i}>{e}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   )
+// }
+
+const onConversationStarterClick = () => {
+}
+
 const ConversationStarters = props => {
+  const classes = useStyles()
   const currentPerson = props.people[props.currentPerson]
-  return (
-    <div>
-      <ul>
-        {props.starters[currentPerson].map((e, i) => (
-          <li key={i}>{e}</li>
-        ))}
-      </ul>
-    </div>
-  )
+
+  return <List
+    component="nav"
+    aria-labelledby="nested-list-subheader"
+    subheader={
+      <ListSubheader component="div" id="nested-list-subheader">
+        Here are great conversation starters
+      </ListSubheader>
+    }
+    className={classes.root}
+  >
+    {props.starters[currentPerson].map((e, i) => (
+      <ListItem key={i} button>
+        <ListItemIcon>
+          <SendIcon/>
+        </ListItemIcon>
+        <ListItemText primary={e}/>
+      </ListItem>
+    ))}
+  </List>
 }
 
 const people = Object.keys(conversationStarters)
@@ -122,7 +175,7 @@ export default props => {
       </AppBar>
       {/* TODO spacing here and card */}
       <div>
-        <h2>Here&apos;s you and mentor {people[currentPerson]}</h2>
+        <h2>Here&aposs you and mentor {people[currentPerson]}</h2>
 
         <div className="card">
           <Radar data={makeRadarData(comparePeople('alice', 'felix'))}/>
@@ -135,7 +188,9 @@ export default props => {
             people={people}
           />
         </div>
-        {JSON.stringify(comparePeople('alice', 'felix'))}
+        <Fab color="primary" aria-label="add" className={classes.fab}>
+          <NavigateNextIcon/>
+        </Fab>
       </div>
     </MentorProfile>
   )
