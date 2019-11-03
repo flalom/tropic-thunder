@@ -97,7 +97,6 @@ const conversationStarters = {
   ],
   felix: ['Maiu!', 'Woof! Woof!', 'Pssst.. Psssst'],
 }
-const peopleNames = Object.keys(conversationStarters)
 
 const ConversationStarters = ({ classes, starters, currentPersonName }) => {
   return (
@@ -178,18 +177,22 @@ export default ({ classes }) => {
             />
           </CardContent>
         </CardActionArea>
-
-        <CardActions>
-          <Button
-            size="large"
-            variant="outlined"
-            color="primary"
-            onClick={() => onPickMentor(people[currentPersonId])}
-          >
-            Pick {mentor}
-          </Button>
-        </CardActions>
       </Card>
+
+      <Button
+        style={{
+          position: 'sticky',
+          marginTop: -100,
+          top: 60,
+          zIndex: 1000
+        }}
+        size="large"
+        variant="contained"
+        color="primary"
+        onClick={() => onPickMentor(people[currentPersonId])}
+      >
+        Pick {mentor}
+      </Button>
 
       <Card className={classes.card}>
         <CardActionArea>
