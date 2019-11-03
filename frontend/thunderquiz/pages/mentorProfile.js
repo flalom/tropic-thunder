@@ -1,14 +1,25 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Radar } from 'react-chartjs-2'
-import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
-import Toolbar from '@material-ui/core/Toolbar'
+import Fab from '@material-ui/core/Fab'
 import IconButton from '@material-ui/core/IconButton'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListSubheader from '@material-ui/core/ListSubheader'
 import MenuIcon from '@material-ui/icons/Menu'
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import React from 'react'
+import SendIcon from '@material-ui/icons/Send'
+import styled from 'styled-components'
+import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { pipe as _, comparator, lt, sort, uniq } from 'ramda'
+import { pipe as _, always, comparator, lt, sort, uniq } from 'ramda'
+import { makeStyles } from '@material-ui/core/styles'
+import { Radar } from 'react-chartjs-2'
+import Card from '@material-ui/core/Card'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import CardContent from '@material-ui/core/CardContent'
 
 import ProfilePicture from '../components/ProfilePicture.js'
 import { peopleSkills } from '../../../backend/peopleSkills'
@@ -24,12 +35,28 @@ const PageContainer = styled.main`
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+  },
+  fab: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
+  card: {
+    maxWidth: 645,
+  },
+  media: {
+    height: 140,
   },
 }))
 
@@ -90,16 +117,33 @@ const conversationStarters = {
   ],
 }
 
+const onConversationStarterClick = () => always(null)
+
 const ConversationStarters = props => {
+  const classes = useStyles()
   const currentPerson = props.people[props.currentPerson]
+
   return (
-    <div>
-      <ul>
-        {props.starters[currentPerson].map((e, i) => (
-          <li key={i}>{e}</li>
-        ))}
-      </ul>
-    </div>
+    <List
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+      subheader={
+        <ListSubheader
+          component="div"
+          id="nested-list-subheader"
+        ></ListSubheader>
+      }
+      className={classes.root}
+    >
+      {props.starters[currentPerson].map((e, i) => (
+        <ListItem key={i} button>
+          <ListItemIcon>
+            <SendIcon />
+          </ListItemIcon>
+          <ListItemText primary={e} />
+        </ListItem>
+      ))}
+    </List>
   )
 }
 
@@ -136,14 +180,24 @@ export default props => {
             <Radar data={makeRadarData(comparePeople('alice', 'felix'))} />
           </div>
 
-          <div className="card">
-            <ConversationStarters
-              starters={conversationStarters}
-              currentPerson={currentPerson}
-              people={people}
-            />
-          </div>
-          {JSON.stringify(comparePeople('alice', 'felix'))}
+          <Card className={classes.card}>
+            <CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Here are great conversation starters
+                </Typography>
+                <ConversationStarters
+                  starters={conversationStarters}
+                  currentPerson={currentPerson}
+                  people={people}
+                />
+              </CardContent>
+            </CardActionArea>
+          </Card>
+
+          <Fab color="primary" aria-label="add" className={classes.fab}>
+            <NavigateNextIcon />
+          </Fab>
         </div>
       </PageContainer>
     </Container>
