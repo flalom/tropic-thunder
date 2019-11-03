@@ -1,3 +1,5 @@
+import Button from '@material-ui/core/Button'
+import CardActions from '@material-ui/core/CardActions'
 import Fab from '@material-ui/core/Fab'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -61,6 +63,9 @@ const makeRadarData = ({ labels, values }) => ({
   ],
 })
 
+const upperCase = str =>
+  str.charAt(0).toLocaleUpperCase() + str.substring(1)
+
 const peopleNames = ['alice', 'bob', 'felix']
 const conversationStarters = {
   alice: [
@@ -96,15 +101,15 @@ const ConversationStarters = ({ classes, starters, currentPersonName }) => {
       className={classes.root}
     >
       {starters &&
-        starters[currentPersonName] &&
-        starters[currentPersonName].map((e, i) => (
-          <ListItem key={i} button>
-            <ListItemIcon>
-              <SendIcon />
-            </ListItemIcon>
-            <ListItemText primary={e} />
-          </ListItem>
-        ))}
+      starters[currentPersonName] &&
+      starters[currentPersonName].map((e, i) => (
+        <ListItem key={i} button>
+          <ListItemIcon>
+            <SendIcon/>
+          </ListItemIcon>
+          <ListItemText primary={e}/>
+        </ListItem>
+      ))}
     </List>
   )
 }
@@ -117,40 +122,68 @@ export default ({ classes }) => {
 
   return (
     <Container>
-      <ProfilePicture mentorUrl={`${peopleNames[currentPersonId]}.jpg`} />
-      {/* TODO spacing here and card */}
-      <div>
-        <h2>Here&apos;s you and mentor {people[currentPersonId]}</h2>
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardContent>
+          </CardContent>
+        </CardActionArea>
+      </Card>
 
-        <div className="card">
-          <Radar data={makeRadarData(comparePeople('alice', 'felix'))} />
-        </div>
+      <Card className={classes.card}>
+        <CardActionArea>
 
-        <Card className={classes.card}>
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                Here are great conversation starters
-              </Typography>
-              <ConversationStarters
-                classes={classes}
-                starters={conversationStarters}
-                currentPersonName={people[currentPersonId]}
-                people={people}
-              />
-            </CardContent>
-          </CardActionArea>
-        </Card>
+          <ProfilePicture mentorUrl={`${peopleNames[currentPersonId]}.jpg`}/>
 
-        <Fab
-          color="primary"
-          aria-label="add"
-          className={classes.fab}
-          onClick={nextPerson}
-        >
-          <NavigateNextIcon />
-        </Fab>
-      </div>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {peopleNames[currentPersonId]}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button size="small" color="primary">
+            Pick
+          </Button>
+        </CardActions>
+      </Card>
+
+
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              Here&apos;s you and mentor {upperCase(people[currentPersonId])}
+            </Typography>
+
+            <Radar data={makeRadarData(comparePeople('alice', 'felix'))}/>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              Here are great conversation starters
+            </Typography>
+            <ConversationStarters
+              classes={classes}
+              starters={conversationStarters}
+              currentPersonName={people[currentPersonId]}
+              people={people}
+            />
+          </CardContent>
+        </CardActionArea>
+      </Card>
+
+      <Fab
+        color="primary"
+        aria-label="add"
+        className={classes.fab}
+        onClick={nextPerson}
+      >
+        <NavigateNextIcon/>
+      </Fab>
     </Container>
   )
 }

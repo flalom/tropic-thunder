@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const ProfilePicWrapper = styled.img`
-  border-radius: 50%;
-  width: 80%;
   max-height: 350px;
+  min-height: 350px;
+  height: 
 `
 
 const ProfilePicture = ({ mentorUrl }) => (
