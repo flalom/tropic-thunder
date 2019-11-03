@@ -11,9 +11,13 @@ import {
   ListItemIcon,
   ListItemText,
   ListSubheader,
+  Slide,
+  useScrollTrigger,
+  Zoom
 } from '@material-ui/core'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import SendIcon from '@material-ui/icons/Send'
 import Typography from '@material-ui/core/Typography'
 import { pipe as _, comparator, lt, sort, uniq } from 'ramda'
@@ -34,55 +38,52 @@ const comparePeople = (person1, person2, projectRequirement) => ({
   ],
 })
 
-const makeTwoPeopleRadar = (
-  { labels, values },
-  legendNames = ['alice', 'felix'],
-) => ({
-  labels,
-  datasets: [
-    {
-      label: upperCase(legendNames[0]),
-      backgroundColor: 'rgba(179,181,198,0.2)',
-      borderColor: 'rgba(179,181,198,1)',
-      pointBackgroundColor: 'rgba(179,181,198,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(179,181,198,1)',
-      data: values[0],
-    },
-    {
-      label: upperCase(legendNames[1]),
-      backgroundColor: 'rgba(255,99,132,0.2)',
-      borderColor: 'rgba(255,99,132,1)',
-      pointBackgroundColor: 'rgba(255,99,132,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(255,99,132,1)',
-      data: values[1],
-    },
-  ],
-})
+const makeTwoPeopleRadar =
+  ({ labels, values }, legendNames = ['alice', 'felix'],) => ({
+    labels,
+    datasets: [
+      {
+        label: upperCase(legendNames[0]),
+        backgroundColor: 'rgba(179,181,198,0.2)',
+        borderColor: 'rgba(179,181,198,1)',
+        pointBackgroundColor: 'rgba(179,181,198,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(179,181,198,1)',
+        data: values[0],
+      },
+      {
+        label: upperCase(legendNames[1]),
+        backgroundColor: 'rgba(255,99,132,0.2)',
+        borderColor: 'rgba(255,99,132,1)',
+        pointBackgroundColor: 'rgba(255,99,132,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(255,99,132,1)',
+        data: values[1],
+      },
+    ],
+  })
 
-const makeSinglePersonRadar = (
-  { labels, values },
-  legendNames = ['alice'],
-) => ({
-  labels,
-  datasets: [
-    {
-      label: upperCase(legendNames[0]),
-      backgroundColor: 'rgba(179,181,198,0.2)',
-      borderColor: 'rgba(179,181,198,1)',
-      pointBackgroundColor: 'rgba(179,181,198,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(179,181,198,1)',
-      data: values[0],
-    },
-  ],
-})
+const makeSinglePersonRadar =
+  ({ labels, values }, legendNames = ['alice'],) => ({
+    labels,
+    datasets: [
+      {
+        label: upperCase(legendNames[0]),
+        backgroundColor: 'rgba(179,181,198,0.2)',
+        borderColor: 'rgba(179,181,198,1)',
+        pointBackgroundColor: 'rgba(179,181,198,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(179,181,198,1)',
+        data: values[0],
+      },
+    ],
+  })
 
-const upperCase = str => str.charAt(0).toLocaleUpperCase() + str.substring(1)
+const upperCase = str =>
+  str.charAt(0).toLocaleUpperCase() + str.substring(1)
 
 const conversationStarters = {
   alice: [
@@ -98,7 +99,7 @@ const conversationStarters = {
   felix: ['Maiu!', 'Woof! Woof!', 'Pssst.. Psssst'],
 }
 
-const ConversationStarters = ({ classes, starters, currentPersonName }) => {
+const ConversationStarters = ({ classes, starters, currentPersonName = [] }) => {
   return (
     <List
       component="nav"
@@ -111,16 +112,15 @@ const ConversationStarters = ({ classes, starters, currentPersonName }) => {
       }
       className={classes.root}
     >
-      {starters &&
-        starters[currentPersonName] &&
-        starters[currentPersonName].map((e, i) => (
-          <ListItem key={i} button>
-            <ListItemIcon>
-              <SendIcon />
-            </ListItemIcon>
-            <ListItemText primary={e} />
-          </ListItem>
-        ))}
+      {starters[currentPersonName] &&
+      starters[currentPersonName].map((e, i) => (
+        <ListItem key={i} button>
+          <ListItemIcon>
+            <SendIcon/>
+          </ListItemIcon>
+          <ListItemText primary={e}/>
+        </ListItem>
+      ))}
     </List>
   )
 }
@@ -138,13 +138,22 @@ export default ({ classes }) => {
   const mentor = people[currentPersonId]
   const length = 3
   const nextPerson = () => {
-    if (process.browser) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-    }
     setCurrentPerson((currentPersonId + 1) % length)
   }
   const previousPerson = () =>
     setCurrentPerson((length + currentPersonId - 1) % length)
+
+  const triggerSticky = useScrollTrigger({
+    target: process.browser ? window : undefined,
+    // disableHysteresis: true,
+    // threshold: 600,
+  })
+
+  const backToTop = useScrollTrigger({
+    target: process.browser ? window : undefined,
+    // disableHysteresis: true,
+    threshold: 200,
+  })
 
   return (
     <div style={{ backgroundColor: 'white', color: 'blue' }}>
@@ -156,8 +165,8 @@ export default ({ classes }) => {
 
       <Card className={classes.card}>
         <CardActionArea>
-          <div style={{ display:'flex', justifyContent:'center' }}>
-            <ProfilePicture mentorUrl={`${mentor}.jpg`} />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <ProfilePicture mentorUrl={`${mentor}.jpg`}/>
           </div>
 
           <CardContent>
@@ -179,20 +188,23 @@ export default ({ classes }) => {
         </CardActionArea>
       </Card>
 
-      <Button
-        style={{
-          position: 'sticky',
-          marginTop: -100,
-          top: 60,
-          zIndex: 1000
-        }}
-        size="large"
-        variant="contained"
-        color="primary"
-        onClick={() => onPickMentor(people[currentPersonId])}
-      >
-        Pick {mentor}
-      </Button>
+      <Slide in={triggerSticky}>
+        <Button
+          style={{
+            position: 'sticky',
+            marginTop: -100,
+            top: 60,
+            zIndex: 1000,
+            width: '100%'
+          }}
+          size="large"
+          variant="contained"
+          color="primary"
+          onClick={() => onPickMentor(people[currentPersonId])}
+        >
+          Pick {mentor}
+        </Button>
+      </Slide>
 
       <Card className={classes.card}>
         <CardActionArea>
@@ -237,7 +249,7 @@ export default ({ classes }) => {
         className={classes.fab}
         onClick={previousPerson}
       >
-        <NavigateBeforeIcon />
+        <NavigateBeforeIcon/>
       </Fab>
       <Fab
         style={{
@@ -250,8 +262,28 @@ export default ({ classes }) => {
         className={classes.fab}
         onClick={nextPerson}
       >
-        <NavigateNextIcon />
+        <NavigateNextIcon/>
       </Fab>
+
+      <Zoom
+        in={backToTop}
+      >
+        <Fab
+          color="secondary" size="small"
+          onClick={() => {
+            if (process.browser) {
+              window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+            }
+          }}
+          style={{
+            bottom: 20,
+            left: '45%',
+          }}
+        >
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </Zoom>
+
     </div>
   )
 }
