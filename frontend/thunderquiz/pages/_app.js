@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import App, { Container } from 'next/app'
+import App from 'next/app'
 import Head from 'next/head'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/core/styles'
@@ -72,14 +72,14 @@ export default class BlogApp extends App {
     return (
       <Theme>
         {classes => (
-          <Container>
+          <React.Fragment>
             <Nav classes={classes}></Nav>
             {this.renderHead()}
             <CssBaseline />
             <PageContainer>
               <Component {...pageProps} classes={classes} />
             </PageContainer>
-          </Container>
+          </React.Fragment>
         )}
       </Theme>
     )
