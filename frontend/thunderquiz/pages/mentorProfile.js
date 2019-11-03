@@ -21,7 +21,7 @@ import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
 
-import ProfilePicture from '../components/ProfilePicture.js'
+import ProfilePicture from '../components/ProfilePicture'
 import { peopleSkills } from '../../../backend/peopleSkills'
 
 const Container = styled.div`
@@ -151,7 +151,12 @@ const people = Object.keys(conversationStarters)
 
 export default props => {
   const classes = useStyles()
-  const currentPerson = props.personId || 0 // TODO from page query
+  let currentPerson = props.personId || 0 // TODO from page query
+
+  if (process.browser) {
+    currentPerson = window.location.search.substr(1).split('=').pop() || 0
+  }
+
   return (
     <Container>
       <AppBar>
