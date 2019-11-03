@@ -1,8 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const ProfilePicWrapper = styled.img`
+  border-radius: 50%;
+  width: 100%;
+`
+
 const ProfilePicture = ({ mentorUrl }) => (
-  <img
+  <ProfilePicWrapper
     alt="Profile picture"
     src={require(`../../../backend/img/${mentorUrl}`)}
   />
