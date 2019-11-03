@@ -38,7 +38,7 @@ const comparePeople = (person1, person2, projectRequirement) => ({
 })
 
 const makeRadarData =
-  ({ labels, values}, legendNames = ['Alice', 'Felix']) => ({
+  ({ labels, values }, legendNames = ['Alice', 'Felix']) => ({
     labels,
     datasets: [
       {
@@ -119,7 +119,7 @@ export default ({ classes }) => {
   const [currentPersonId, setCurrentPerson] = useState(0)
   const nextPerson = () => {
     if (process.browser) {
-      window.scrollTo(0, 0)
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     }
     setCurrentPerson((currentPersonId + 1) % 3)
   }
@@ -197,13 +197,19 @@ export default ({ classes }) => {
       </Card>
 
       <Fab
+        style={{
+          position: 'fixed',
+          top: 300,
+          left: '80%'
+        }}
         color="primary"
-        aria-label="add"
+        aria-label="add
         className={classes.fab}
         onClick={nextPerson}
       >
         <NavigateNextIcon/>
       </Fab>
+
     </Container>
   )
 }
