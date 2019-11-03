@@ -132,11 +132,13 @@ export default ({ classes }) => {
       <Card className={classes.card}>
         <CardActionArea>
 
-          <ProfilePicture mentorUrl={`${peopleNames[currentPersonId]}.jpg`}/>
+          <ProfilePicture
+            mentorUrl={`${peopleNames[currentPersonId]}.jpg`}/>
 
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {peopleNames[currentPersonId]}
+            <Typography
+              gutterBottom variant="h2" component="h2">
+              {upperCase(peopleNames[currentPersonId])}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -147,15 +149,17 @@ export default ({ classes }) => {
         </CardActions>
       </Card>
 
-
       <Card className={classes.card}>
         <CardActionArea>
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h2" component="h2">
               Here&apos;s you and mentor {upperCase(people[currentPersonId])}
             </Typography>
 
-            <Radar data={makeRadarData(comparePeople('alice', 'felix'))}/>
+            <Radar
+              style={{height: '500px'}}
+              data={makeRadarData(comparePeople('alice', 'felix'))}/>
+
           </CardContent>
         </CardActionArea>
       </Card>
