@@ -127,6 +127,12 @@ const ConversationStarters = ({ classes, starters, currentPersonName }) => {
 
 const people = Object.keys(conversationStarters)
 
+const onPickMentor = mentor => {
+  if (process.browser) {
+    window.scrollTo({ bottom: 0, left: 0, behavior: 'smooth' })
+  }
+}
+
 export default ({ classes }) => {
   const [currentPersonId, setCurrentPerson] = useState(0)
   const nextPerson = () => {
@@ -171,7 +177,11 @@ export default ({ classes }) => {
         </CardActionArea>
 
         <CardActions>
-          <Button size="small" color="primary">
+          <Button
+            size="small"
+            color="primary"
+            onClick={() =>
+              onPickMentor(people[currentPersonId])}>
             Pick
           </Button>
         </CardActions>
@@ -197,8 +207,9 @@ export default ({ classes }) => {
       <Card className={classes.card}>
         <CardActionArea>
           <CardContent>
-            <Typography gutterBottom variant="h3" component="h2">
-              Here are great conversation starters
+            <Typography gutterBottom variant="h4" component="h2">
+              Here are great conversation starters for you and
+              { ' ' + upperCase(people[currentPersonId])}
             </Typography>
             <ConversationStarters
               classes={classes}
