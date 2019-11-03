@@ -146,7 +146,7 @@ export default ({ classes }) => {
   const triggerSticky = useScrollTrigger({
     target: process.browser ? window : undefined,
     // disableHysteresis: true,
-    // threshold: 600,
+    threshold: 0,
   })
 
   const backToTop = useScrollTrigger({
@@ -194,7 +194,7 @@ export default ({ classes }) => {
             position: 'sticky',
             marginTop: -100,
             top: 60,
-            zIndex: 1000,
+            zIndex: 890,
             width: '100%'
           }}
           size="large"
