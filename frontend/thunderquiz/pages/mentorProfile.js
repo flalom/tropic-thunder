@@ -228,8 +228,8 @@ export default ({ classes }) => {
       <Fab
         style={{
           position: 'fixed',
-          top: 300,
-          left: '20%',
+          bottom: 100,
+          left: '5%',
         }}
         color="primary"
         aria-label="add"
@@ -241,7 +241,7 @@ export default ({ classes }) => {
       <Fab
         style={{
           position: 'fixed',
-          top: 300,
+          bottom: 100,
           left: '80%',
         }}
         color="primary"
