@@ -9,6 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Typography from '@material-ui/core/Typography'
+import { peopleSkills } from '../../../backend/peopleSkills'
 
 const MentorProfile = styled.div`
   background-color: white;
@@ -27,8 +28,19 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const data = {
-  labels: ['JSX', 'JS', 'Node.js', 'React', 'Angular', 'HTML', 'Redux', 'ESLint', 'NPM'],
+const labelsFor = (person1, person2, projectRequirement) => {
+  return {
+    labels: Object.keys(peopleSkills[person1])
+      .concat(Object.keys(peopleSkills[person2])),
+    datasets: [
+      Object.values(peopleSkills[person1]),
+      Object.values(peopleSkills[person2])
+    ]
+  }
+}
+
+const makeRadarData = (labels, values) => ({
+  labels,
   datasets: [
     {
       label: 'Alice',
@@ -38,7 +50,7 @@ const data = {
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(179,181,198,1)',
-      data: [65, 59, 90, 81, 56, 55, 40]
+      data: values[0]
     },
     {
       label: 'Felix',
@@ -48,9 +60,13 @@ const data = {
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(255,99,132,1)',
-      data: [28, 48, 40, 19, 96, 27, 100]
+      data: values[1]
     }
   ]
+})
+
+const data = {
+
 }
 
 const conversationStarters = {
@@ -95,7 +111,7 @@ export default props => {
           <MenuIcon/>
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          News
+          Mentors
         </Typography>
         <Button color="inherit">Login</Button>
       </Toolbar>
@@ -105,7 +121,7 @@ export default props => {
       <h2>Here's you and mentor {people[currentPerson]}</h2>
 
       <div className="card">
-        <Radar data={data}/>
+        <Radar data={makeRadarData(labelsFor('alice', 'felix'))}/>
       </div>
 
       <div className="card">
@@ -114,7 +130,7 @@ export default props => {
           currentPerson={currentPerson}
           people={people}/>
       </div>
-
+      {JSON.stringify(labelsFor('alice', 'felix'))}
     </div>
   </MentorProfile>
 }
