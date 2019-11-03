@@ -156,7 +156,9 @@ export default ({ classes }) => {
 
       <Card className={classes.card}>
         <CardActionArea>
-          <ProfilePicture mentorUrl={`${peopleNames[currentPersonId]}.jpg`} />
+          <div style={{ display:'flex', justifyContent:'center' }}>
+            <ProfilePicture mentorUrl={`${peopleNames[currentPersonId]}.jpg`} />
+          </div>
 
           <CardContent>
             <Typography gutterBottom variant="h2" component="h2">
