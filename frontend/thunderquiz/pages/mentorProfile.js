@@ -130,7 +130,7 @@ const people = Object.keys(conversationStarters)
 
 const onPickMentor = mentor => {
   if (process.browser) {
-    window.scrollTo({ bottom: 0, left: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 3000, left: 0, behavior: 'smooth' })
   }
 }
 
