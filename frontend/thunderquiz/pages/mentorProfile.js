@@ -13,6 +13,7 @@ import {
   ListSubheader,
 } from '@material-ui/core'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import SendIcon from '@material-ui/icons/Send'
 import Typography from '@material-ui/core/Typography'
 import { pipe as _, comparator, lt, sort, uniq } from 'ramda'
@@ -135,12 +136,15 @@ const onPickMentor = mentor => {
 
 export default ({ classes }) => {
   const [currentPersonId, setCurrentPerson] = useState(0)
+  const length = 3
   const nextPerson = () => {
     if (process.browser) {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     }
-    setCurrentPerson((currentPersonId + 1) % 3)
+    setCurrentPerson((currentPersonId + 1) % length)
   }
+  const previousPerson = () =>
+    setCurrentPerson((length + currentPersonId - 1) % length)
 
   return (
     <div style={{ backgroundColor: 'white', color: 'blue' }}>
@@ -221,6 +225,19 @@ export default ({ classes }) => {
         </CardActionArea>
       </Card>
 
+      <Fab
+        style={{
+          position: 'fixed',
+          top: 300,
+          left: '20%',
+        }}
+        color="primary"
+        aria-label="add"
+        className={classes.fab}
+        onClick={previousPerson}
+      >
+        <NavigateBeforeIcon />
+      </Fab>
       <Fab
         style={{
           position: 'fixed',
