@@ -203,7 +203,7 @@ export default ({ classes }) => {
           left: '80%'
         }}
         color="primary"
-        aria-label="add
+        aria-label="add"
         className={classes.fab}
         onClick={nextPerson}
       >
