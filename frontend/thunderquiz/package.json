@@ -27,11 +27,6 @@
       "@linguala/eslint-config"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "prettier": {
     "semi": false,
     "singleQuote": true,

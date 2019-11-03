@@ -74,7 +74,7 @@ function PostPage(props) {
 
 PostPage.getInitialProps = async context => {
   const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${context.query.postId}`
+    `https://jsonplaceholder.typicode.com/posts/${context.query.postId}`,
   )
   if (response.ok) {
     const post = await response.json()

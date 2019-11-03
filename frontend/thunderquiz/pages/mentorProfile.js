@@ -8,7 +8,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Typography from '@material-ui/core/Typography'
-
 import { uniq } from 'ramda'
 
 import { peopleSkills } from '../../../backend/peopleSkills'
@@ -33,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 const comparePeople = (person1, person2, projectRequirement) => {
   return {
     labels: Object.keys(peopleSkills[person1]).concat(
-      Object.keys(peopleSkills[person2])
+      Object.keys(peopleSkills[person2]),
     ),
     values: [
       Object.values(peopleSkills[person1]),
