@@ -1,21 +1,15 @@
-import AppBar from '@material-ui/core/AppBar'
-import Button from '@material-ui/core/Button'
 import Fab from '@material-ui/core/Fab'
-import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
-import MenuIcon from '@material-ui/icons/Menu'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
-import React from 'react'
+import React, { useState } from 'react'
 import SendIcon from '@material-ui/icons/Send'
 import styled from 'styled-components'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { pipe as _, always, comparator, lt, sort, uniq } from 'ramda'
-import { makeStyles } from '@material-ui/core/styles'
 import { Radar } from 'react-chartjs-2'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -28,37 +22,6 @@ const Container = styled.div`
   background-color: white;
   color: blue;
 `
-
-const PageContainer = styled.main`
-  margin-top: 5em;
-`
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  fab: {
-    margin: theme.spacing(1),
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
-  },
-  nested: {
-    paddingLeft: theme.spacing(4),
-  },
-  card: {
-    maxWidth: 645,
-  },
-  media: {
-    height: 140,
-  },
-}))
 
 const comparePeople = (person1, person2, projectRequirement) => ({
   labels: _(uniq, sort(comparator(lt)))(
@@ -119,10 +82,7 @@ const conversationStarters = {
 
 const onConversationStarterClick = () => always(null)
 
-const ConversationStarters = props => {
-  const classes = useStyles()
-  const currentPerson = props.people[props.currentPerson]
-
+const ConversationStarters = ({ classes, starters, currentPersonName }) => {
   return (
     <List
       component="nav"
@@ -135,87 +95,62 @@ const ConversationStarters = props => {
       }
       className={classes.root}
     >
-      {props.starters[currentPerson].map((e, i) => (
-        <ListItem key={i} button>
-          <ListItemIcon>
-            <SendIcon />
-          </ListItemIcon>
-          <ListItemText primary={e} />
-        </ListItem>
-      ))}
+      {starters &&
+        starters[currentPersonName] &&
+        starters[currentPersonName].map((e, i) => (
+          <ListItem key={i} button>
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText primary={e} />
+          </ListItem>
+        ))}
     </List>
   )
 }
 
 const people = Object.keys(conversationStarters)
-const getCurrentPersonIndex = () => {
-  if (process.browser) {
-    return window.location.search.substr(1).split('=').pop() || 0
-  }
-  return 0
-}
 
-const navigateNextMentor = (index) => {
-  if (process.browser) {
-    return window.location.href = '?mentor=' + (parseInt(getCurrentPersonIndex(), 10) + 1)
-  }
-  return
-}
-
-export default props => {
-  const classes = useStyles()
-  let currentPerson = getCurrentPersonIndex()
+export default ({ classes }) => {
+  const [currentPersonId, setCurrentPerson] = useState(0)
+  const nextPerson = () => setCurrentPerson((currentPersonId + 1) % 3)
 
   return (
     <Container>
-      <AppBar>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Mentors
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-      <PageContainer>
-        <ProfilePicture mentorUrl={`${peopleNames[currentPerson]}.jpg`} />
-        {/* TODO spacing here and card */}
-        <div>
-          <h2>Here&apos;s you and mentor {people[currentPerson]}</h2>
+      <ProfilePicture mentorUrl={`${peopleNames[currentPersonId]}.jpg`} />
+      {/* TODO spacing here and card */}
+      <div>
+        <h2>Here&apos;s you and mentor {people[currentPersonId]}</h2>
 
-          <div className="card">
-            <Radar data={makeRadarData(comparePeople('alice', 'felix'))} />
-          </div>
-
-          <Card className={classes.card}>
-            <CardActionArea>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Here are great conversation starters
-                </Typography>
-                <ConversationStarters
-                  starters={conversationStarters}
-                  currentPerson={currentPerson}
-                  people={people}
-                />
-              </CardContent>
-            </CardActionArea>
-          </Card>
-
-          <Fab color="primary" aria-label="add"
-               className={classes.fab}
-              onClick={() => navigateNextMentor(getCurrentPersonIndex())}>
-            <NavigateNextIcon />
-          </Fab>
+        <div className="card">
+          <Radar data={makeRadarData(comparePeople('alice', 'felix'))} />
         </div>
-      </PageContainer>
+
+        <Card className={classes.card}>
+          <CardActionArea>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Here are great conversation starters
+              </Typography>
+              <ConversationStarters
+                classes={classes}
+                starters={conversationStarters}
+                currentPersonName={people[currentPersonId]}
+                people={people}
+              />
+            </CardContent>
+          </CardActionArea>
+        </Card>
+
+        <Fab
+          color="primary"
+          aria-label="add"
+          className={classes.fab}
+          onClick={nextPerson}
+        >
+          <NavigateNextIcon />
+        </Fab>
+      </div>
     </Container>
   )
 }
