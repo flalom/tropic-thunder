@@ -1,12 +1,7 @@
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
-import Collapse from '@material-ui/core/Collapse'
-import DraftsIcon from '@material-ui/icons/Drafts'
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
 import Fab from '@material-ui/core/Fab'
 import IconButton from '@material-ui/core/IconButton'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -16,15 +11,15 @@ import MenuIcon from '@material-ui/icons/Menu'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import React from 'react'
 import SendIcon from '@material-ui/icons/Send'
-import StarBorder from '@material-ui/icons/StarBorder'
 import styled from 'styled-components'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { Radar } from 'react-chartjs-2'
-
-
-import { comparator, lt, pipe as _, sort, uniq } from 'ramda'
+import { always, comparator, lt, pipe as _, sort, uniq } from 'ramda'
+import Card from '@material-ui/core/Card'
+import CardActionArea from '@material-ui/core/CardActionArea'
+import CardContent from '@material-ui/core/CardContent'
 
 import { peopleSkills } from '../../../backend/peopleSkills'
 
@@ -52,6 +47,12 @@ const useStyles = makeStyles(theme => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
+  },
+  card: {
+    maxWidth: 645,
+  },
+  media: {
+    height: 140,
   },
 }))
 
@@ -110,20 +111,7 @@ const conversationStarters = {
   ],
 }
 
-// const ConversationStarters = props => {
-//   return (
-//     <div>
-//       <ul>
-//         {props.starters[currentPerson].map((e, i) => (
-//           <li key={i}>{e}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   )
-// }
-
-const onConversationStarterClick = () => {
-}
+const onConversationStarterClick = () => always(null)
 
 const ConversationStarters = props => {
   const classes = useStyles()
@@ -134,7 +122,7 @@ const ConversationStarters = props => {
     aria-labelledby="nested-list-subheader"
     subheader={
       <ListSubheader component="div" id="nested-list-subheader">
-        Here are great conversation starters
+
       </ListSubheader>
     }
     className={classes.root}
@@ -181,13 +169,21 @@ export default props => {
           <Radar data={makeRadarData(comparePeople('alice', 'felix'))}/>
         </div>
 
-        <div className="card">
-          <ConversationStarters
-            starters={conversationStarters}
-            currentPerson={currentPerson}
-            people={people}
-          />
-        </div>
+        <Card className={classes.card}>
+          <CardActionArea>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Here are great conversation starters
+              </Typography>
+              <ConversationStarters
+                starters={conversationStarters}
+                currentPerson={currentPerson}
+                people={people}
+              />
+            </CardContent>
+          </CardActionArea>
+        </Card>
+
         <Fab color="primary" aria-label="add" className={classes.fab}>
           <NavigateNextIcon/>
         </Fab>
