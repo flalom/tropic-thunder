@@ -9,7 +9,7 @@ const ProfilePicWrapper = styled.img`
 const ProfilePicture = ({ mentorUrl }) => (
   <ProfilePicWrapper
     alt="Profile picture"
-    src={require(`../../../backend/img/${mentorUrl}`)}
+    src={require(`../public/img/${mentorUrl}`)}
   />
 )
 
