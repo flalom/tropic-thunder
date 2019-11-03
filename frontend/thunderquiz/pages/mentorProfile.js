@@ -157,7 +157,7 @@ const getCurrentPersonIndex = () => {
 
 const navigateNextMentor = (index) => {
   if (process.browser) {
-    // return window.location.href = ''
+    return window.location.href = '?mentor=' + (parseInt(getCurrentPersonIndex(), 10) + 1)
   }
   return
 }
