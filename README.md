@@ -3,7 +3,7 @@
 ![demo](hackAndLead2019b.gif)
 
 ## Challenge
-- Accenture
+- Accenture challenge HacknLead2019
 
 ## Topics
 - e-learning
